@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<!-- 레이아웃 templete(put-attribute으로 구성된 레이아웃 태블릭) -->
+  	<definition name="myapp.homepage" template="/WEB-INF/views/layouts/layout.jsp">
+  		<!-- title(banner애 올라오는 제목)속성에 value값을 부여 -->
+    	<put-attribute name="title" value="My Web Site" />
+    	<!-- header속성에 value값을 부여 -->
+    	<put-attribute name="header" value="/WEB-INF/views/layouts/header.jsp" />
+    	<!-- menu속성에 value값을 부여 -->
+    	<put-attribute name="menu" value="/WEB-INF/views/layouts/menu.jsp" />
+    	<!-- body속성에 value값을 부여 -->
+    	<put-attribute name="body" value="" />
+    	<!-- footer속성에 value값을 부여 -->
+    	<put-attribute name="footer" value="/WEB-INF/views/layouts/footer.jsp" />
+  	</definition>
+  	
+  	<!-- body 정의 : extends의 값인 name의 definition한테 상속받음-->
+  	<definition name="WILDCARD:*/*" extends="myapp.homepage">
+  		<!-- 1/2형식을 가진 파일이 들어오면 /WEB-INF/views/1/2.jsp로 value값으로 대입돼서 동작됨-->
+  		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp"/>
+  		<!-- 들어오는 갯수 만큼{}에 번호로 할당해서 사용이 가능함 -->
+  	</definition>
+</tiles-definitions>

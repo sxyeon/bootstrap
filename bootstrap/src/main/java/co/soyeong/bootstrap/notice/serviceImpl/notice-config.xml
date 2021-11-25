@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.soyeong.bootstrap.notice.service.NoticeMapper">
+	<select id="noticeList"
+		resultType="co.soyeong.bootstrap.notice.service.NoticeVO">
+		SELECT * FROM NOTICE ORDER BY 1
+	</select>
+
+	<select id="noticeSelect" resultType="co.soyeong.bootstrap.notice.service.NoticeVO">
+		SELECT * FROM NOTICE
+		WHERE NNO = #{nNo}
+	</select>
+
+	<select id="noticeSearchList" parameterType="String" resultType="co.soyeong.bootstrap.notice.service.NoticeVO" >
+		SELECT * FROM NOTICE
+		WHERE nSubject like '%'||#{searchKey}||'%'
+	</select>
+
+	<insert id="noticeInsert"
+		parameterType="co.soyeong.bootstrap.notice.service.NoticeVO">
+		<!-- nNo을 안가지고 와도 이미 selectKey로 값을 미리 가져와서 넣어줌 -->
+		<selectKey	keyProperty="nNo" resultType="int" order ="BEFORE">
+			SELECT MAX(NNO)+1 FROM NOTICE
+		</selectKey>
+		INSERT INTO NOTICE
+		VALUES (#{nNo},#{nId},#{nName},#{nDate},#{nTitle},#{nSubject},#{nFileName},#{nPFileName})
+	</insert>
+
+	<update id="noticeUpdate"
+		parameterType="co.soyeong.bootstrap.notice.service.NoticeVO">
+		UPDATE NOTICE
+		<set>
+			<if test="NID != null">N_ID=#{nId},</if>
+			<if test="NNAME != null">N_NAME=#{nName},</if>
+			<if test="NDATE != null">N_DATE=#{nDate},</if>
+			<if test="NTitle != null">N_TITLE=#{nTitle},</if>
+			<if test="NSUBJECT != null">N_SUBJECT=#{nSubject},</if>
+			<if test="NFILENAME != null">N_FILENAME=#{nFileName},</if>
+			<if test="NPFILENAME != null">N_PFILENAME=#{nPFileName}</if>
+		</set>
+		WHERE N_NO = #{nNo}
+	</update>
+
+	<delete id="noticeDelete"
+		parameterType="co.soyeong.bootstrap.notice.service.NoticeVO">
+		DELETE FROM NOTICE
+		WHERE NNO = #{nNo}
+	</delete>
+
+</mapper>
